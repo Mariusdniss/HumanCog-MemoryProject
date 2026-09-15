@@ -1,0 +1,21 @@
+# Raw data exported from the experiment runner (each participant's CSV) --
+# keep these out of version control by default since they can be large/many;
+# untrack this line if you want your actual data in the repo for reproducibility.
+/memory_experiment_*.csv
+
+# Generated top-level plots from `python analyze.py` -- regenerate anytime.
+# NOTE: this does NOT match report/figures/*.png, which the report needs.
+/*.png
+/summary.csv
+
+# LaTeX build artifacts
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.fls
+report/*.fdb_latexmk
+report/*.synctex.gz
+
+# OS / editor
+.DS_Store

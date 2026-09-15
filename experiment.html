@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Memory Experiment Runner</title>
+<style>
+  :root {
+    --ink: #1c1b19;
+    --paper: #fafaf8;
+    --line: #d8d5cd;
+    --accent: #3a5a40;
+    --mono: "IBM Plex Mono", "Courier New", monospace;
+    --serif: "IBM Plex Serif", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  #app {
+    width: 100%;
+    max-width: 640px;
+    padding: 48px 24px 80px;
+  }
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .sub {
+    color: #6b6860;
+    font-size: 0.95rem;
+    margin-bottom: 32px;
+  }
+  label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    color: #4a4740;
+  }
+  input[type=text], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 1rem;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: #fff;
+    margin-bottom: 20px;
+  }
+  button {
+    font-family: var(--serif);
+    font-size: 1rem;
+    padding: 11px 22px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  button:hover { background: #2d4632; }
+  button.secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  button.secondary:hover { background: #eef2ee; }
+  button:disabled { opacity: 0.4; cursor: default; }
+  .stage {
+    text-align: center;
+    padding: 60px 0;
+  }
+  .stim {
+    font-family: var(--mono);
+    font-size: 3.4rem;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  .instruction {
+    font-size: 1.1rem;
+    color: #4a4740;
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .timer {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    margin-top: 24px;
+    color: var(--accent);
+  }
+  .progress {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: #9a968c;
+    margin-bottom: 8px;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+  .row { display: flex; gap: 12px; }
+  .row > * { flex: 1; }
+  .log-hint {
+    font-size: 0.85rem;
+    color: #9a968c;
+    margin-top: 8px;
+  }
+  .task-banner {
+    display: inline-block;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ---------- config ---------- */
+const ALPHABET  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); // free recall pool: 26 letters, sample 20 without replacement
+const GENERAL_POOL = ['F','H','J','K','L','M','N','Q','R','S','W','X','Y']; // Block B (chunking/suppression/tapping): non-confusable pool
+const PHON_POOL = ['B','C','D','G','P','T','V'];                          // Block A: rhymes with "-ee" -- Conrad's classic acoustic-confusion set
+const WORDS3 = ['CAT','DOG','JOB','RUN','SUN','BAT','CUP','PEN','BOX','FOX',
+                'HAT','MAP','NET','POT','RAT','TOP','WEB','ZOO','BUS','GUM',
+                'ARM','BAG','BED','CAR','COW','EAR','FAN','GUN','HAM','JAR',
+                'KEY','LEG','LIP','NUT','OWL','PIG','SEA','SKI','SKY','SON'];
+
+const FREE_RECALL_LEN = 20; // per course slides: "20 items presented in sequence"
+const FREE_RECALL_REPS_PER_COND = 5; // 4 conditions -> 20 trials
+const SERIAL_A_LENGTHS = [3,4,5,6,7]; // capped at 7: PHON_POOL only has 7 unique letters
+const SERIAL_A_REPS = 4;              // 20 trials, capacity + error-type data (uses PHON_POOL, to elicit sound-alike confusions)
+const SERIAL_B_UNITS = 6;             // number of units (letters, or words/chunks) per trial in block B
+const SERIAL_B_REPS_PER_COND = 6;     // 4 conditions -> 24 trials
+
+/* ---------- utilities ---------- */
+function shuffle(a){ a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function sample(pool, n){ return shuffle(pool).slice(0,n); }
+function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+function nowISO(){ return new Date().toISOString(); }
+
+let LOG = [];
+function logTrial(row){ LOG.push(row); }
+
+function downloadCSV(){
+  if (LOG.length === 0) { alert('No trials logged yet.'); return; }
+  const cols = Object.keys(LOG.reduce((a,r)=>Object.assign(a,r), {}));
+  const lines = [cols.join(',')];
+  for (const row of LOG){
+    lines.push(cols.map(c => {
+      let v = row[c] === undefined ? '' : String(row[c]);
+      v = v.replace(/"/g,'""');
+      return /[,"\n]/.test(v) ? `"${v}"` : v;
+    }).join(','));
+  }
+  const blob = new Blob([lines.join('\n')], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `memory_experiment_${participantId}_${Date.now()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------- state ---------- */
+let participantId = '';
+const app = document.getElementById('app');
+
+/* ---------- screens ---------- */
+function screenHome(){
+  app.innerHTML = `
+    <h1>Memory Experiment Runner</h1>
+    <div class="sub">Free recall &amp; serial recall — DTU 02464/02458 mini project</div>
+    <div class="card">
+      <label for="pid">Participant ID</label>
+      <input type="text" id="pid" placeholder="e.g. P1" value="${participantId}">
+      <button id="startFree">Run Free Recall (20 trials, ~15 min)</button>
+    </div>
+    <div class="card">
+      <button id="startSerial">Run Serial Recall (48 trials, ~20 min)</button>
+    </div>
+    <div class="card">
+      <button class="secondary" id="exportBtn">Export logged data (CSV)</button>
+      <div class="log-hint">${LOG.length} trial(s) logged this session.</div>
+    </div>
+  `;
+  document.getElementById('startFree').onclick = () => {
+    participantId = document.getElementById('pid').value.trim() || 'anon';
+    runFreeRecall();
+  };
+  document.getElementById('startSerial').onclick = () => {
+    participantId = document.getElementById('pid').value.trim() || 'anon';
+    runSerialRecall();
+  };
+  document.getElementById('exportBtn').onclick = downloadCSV;
+}
+
+function stageHTML(inner){
+  app.innerHTML = `<div class="stage">${inner}</div>`;
+}
+
+async function fixation(ms=800){
+  stageHTML(`<div class="stim">+</div>`);
+  await sleep(ms);
+}
+
+async function presentSequence(items, msPerItem, groupEvery=null, groupPauseMs=350){
+  for (let i=0;i<items.length;i++){
+    stageHTML(`<div class="stim">${items[i]}</div>`);
+    await sleep(msPerItem*0.75);
+    stageHTML(`<div class="stim">&nbsp;</div>`);
+    await sleep(msPerItem*0.25);
+    if (groupEvery && (i+1)%groupEvery===0 && i+1<items.length){
+      await sleep(groupPauseMs);
+    }
+  }
+}
+
+function typedRecall({title, banner, placeholder, onSubmit}){
+  app.innerHTML = `
+    <div class="stage">
+      ${banner ? `<div class="task-banner">${banner}</div><br>` : ''}
+      <div class="instruction">${title}</div>
+      <div style="margin-top:24px; max-width:420px; margin-left:auto; margin-right:auto;">
+        <input type="text" id="respInput" placeholder="${placeholder}" autofocus>
+        <button id="submitBtn">Submit</button>
+      </div>
+    </div>
+  `;
+  const input = document.getElementById('respInput');
+  const submit = () => onSubmit(input.value.trim().toUpperCase());
+  document.getElementById('submitBtn').onclick = submit;
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
+  input.focus();
+}
+
+async function waitScreen(ms, banner){
+  const start = Date.now();
+  return new Promise(resolve => {
+    function tick(){
+      const left = Math.max(0, Math.ceil((ms-(Date.now()-start))/1000));
+      stageHTML(`
+        ${banner ? `<div class="task-banner">${banner}</div><br>` : ''}
+        <div class="instruction">${banner==='distractor' ? 'Count backward aloud by 3s from ' + distractorStart + '. Keep going until the timer ends.' : 'Please wait quietly.'}</div>
+        <div class="timer">${left}s</div>
+      `);
+      if (Date.now()-start >= ms) resolve();
+      else requestAnimationFrame(() => setTimeout(tick, 200));
+    }
+    tick();
+  });
+}
+let distractorStart = 0;
+
+/* ---------- FREE RECALL ---------- */
+async function runFreeRecall(){
+  const conditions = shuffle([
+    ...Array(FREE_RECALL_REPS_PER_COND).fill('baseline'),
+    ...Array(FREE_RECALL_REPS_PER_COND).fill('fast'),
+    ...Array(FREE_RECALL_REPS_PER_COND).fill('distractor'),
+    ...Array(FREE_RECALL_REPS_PER_COND).fill('delay'),
+  ]);
+
+  for (let t=0; t<conditions.length; t++){
+    const cond = conditions[t];
+    const list = sample(ALPHABET, FREE_RECALL_LEN); // no repeats within trial
+    const rate = cond === 'fast' ? 500 : 1000;
+
+    stageHTML(`<div class="progress">Free recall — trial ${t+1} / ${conditions.length} — condition: ${cond}</div><div class="instruction">Get ready.</div>`);
+    await sleep(1200);
+    await fixation();
+    await presentSequence(list, rate);
+
+    if (cond === 'distractor'){
+      distractorStart = 100 + Math.floor(Math.random()*800);
+      await waitScreen(20000, 'distractor');
+    } else if (cond === 'delay'){
+      await waitScreen(20000, 'delay');
+    }
+
+    await new Promise(resolve => {
+      typedRecall({
+        title: 'Type all the letters you remember, in any order, separated by spaces.',
+        banner: cond,
+        placeholder: 'e.g. K F R M ...',
+        onSubmit: (resp) => {
+          logTrial({
+            experiment: 'free_recall',
+            participant: participantId,
+            trial_index: t,
+            condition: cond,
+            list_length: list.length,
+            list: list.join(' '),
+            response: resp,
+            rate_ms_per_item: rate,
+            timestamp: nowISO(),
+          });
+          resolve();
+        }
+      });
+    });
+  }
+  screenDone('Free recall complete.');
+}
+
+/* ---------- SERIAL RECALL ---------- */
+async function runSerialRecall(){
+  // Block A: capacity + error types (uses PHON_POOL -- all letters rhyme, to elicit sound-alike confusions)
+  const blockA = shuffle(
+    SERIAL_A_LENGTHS.flatMap(len => Array(SERIAL_A_REPS).fill(len))
+  );
+  for (let t=0; t<blockA.length; t++){
+    const len = blockA[t];
+    const list = sample(PHON_POOL, len);
+    stageHTML(`<div class="progress">Serial recall (A) — trial ${t+1} / ${blockA.length} — length ${len}</div>`);
+    await sleep(1000);
+    await fixation();
+    await presentSequence(list, 1000);
+    await new Promise(resolve => {
+      typedRecall({
+        title: 'Type the letters in the exact order shown, no spaces (e.g. BDPT).',
+        banner: `length ${len}`,
+        placeholder: 'e.g. BDPT',
+        onSubmit: (resp) => {
+          logTrial({
+            experiment: 'serial_recall',
+            block: 'A_capacity',
+            participant: participantId,
+            trial_index: t,
+            condition: `length_${len}`,
+            list_length: len,
+            list: list.join(''),
+            response: resp,
+            timestamp: nowISO(),
+          });
+          resolve();
+        }
+      });
+    });
+  }
+
+  // Block B: chunking, suppression, tapping (fixed number of units per trial)
+  // 'chunked' condition uses three-letter words as the recall unit, per the slides'
+  // point that capacity is measured in chunks, not letters -- so span (units correct)
+  // should look similar to the 'control' single-letter condition despite 3x the raw info.
+  const condsB = shuffle([
+    ...Array(SERIAL_B_REPS_PER_COND).fill('control'),
+    ...Array(SERIAL_B_REPS_PER_COND).fill('chunked'),
+    ...Array(SERIAL_B_REPS_PER_COND).fill('suppression'),
+    ...Array(SERIAL_B_REPS_PER_COND).fill('tapping'),
+  ]);
+  for (let t=0; t<condsB.length; t++){
+    const cond = condsB[t];
+    const list = cond === 'chunked' ? sample(WORDS3, SERIAL_B_UNITS) : sample(GENERAL_POOL, SERIAL_B_UNITS);
+
+    let taskMsg = '';
+    if (cond === 'suppression') taskMsg = 'Say "the-the-the" continuously out loud, starting now, through presentation and recall.';
+    if (cond === 'tapping') taskMsg = 'Tap a steady rhythm with one finger, starting now, through presentation and recall.';
+    if (taskMsg){
+      stageHTML(`<div class="task-banner">${cond}</div><br><div class="instruction">${taskMsg}</div>`);
+      await sleep(2500);
+    } else {
+      stageHTML(`<div class="progress">Serial recall (B) — trial ${t+1} / ${condsB.length} — condition: ${cond}</div>`);
+      await sleep(1000);
+    }
+    await fixation();
+    await presentSequence(list, cond === 'chunked' ? 1200 : 1000); // words get slightly more time per unit
+    await new Promise(resolve => {
+      typedRecall({
+        title: `Type the ${cond === 'chunked' ? 'words' : 'letters'} in the exact order shown, separated by spaces.` + (taskMsg ? ' You may stop the secondary task now.' : ''),
+        banner: cond,
+        placeholder: cond === 'chunked' ? 'e.g. CAT DOG JOB' : 'e.g. F H K L',
+        onSubmit: (resp) => {
+          logTrial({
+            experiment: 'serial_recall',
+            block: 'B_manipulation',
+            participant: participantId,
+            trial_index: t,
+            condition: cond,
+            list_length: list.length,
+            list: list.join(' '),
+            response: resp,
+            timestamp: nowISO(),
+          });
+          resolve();
+        }
+      });
+    });
+  }
+  screenDone('Serial recall complete.');
+}
+
+function screenDone(msg){
+  app.innerHTML = `
+    <div class="stage">
+      <div class="instruction">${msg}</div>
+      <div style="margin-top:24px;">
+        <button id="exportNow">Export CSV now</button>
+        <button class="secondary" id="backHome" style="margin-left:10px;">Back to menu</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('exportNow').onclick = downloadCSV;
+  document.getElementById('backHome').onclick = screenHome;
+}
+
+screenHome();
+</script>
+</body>
+</html>
