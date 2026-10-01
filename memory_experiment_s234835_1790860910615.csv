@@ -1,0 +1,65 @@
+experiment,participant,trial_index,condition,list_length,list,response,rate_ms_per_item,timestamp,block
+free_recall,s234835,0,fast,20,M U E Y F Q S P X J I W B V C T K N R Z,Z R N K P V S,500,2026-10-01T12:51:55.303Z,
+free_recall,s234835,1,delay,20,B I G K Q X O L V J S F U Y C H N D Z P,P Z Q U F H I V L S,1000,2026-10-01T12:52:49.739Z,
+free_recall,s234835,2,baseline,20,B R P Q N D S F O U G L X T Y A C V I K,C V I K A B L U T Q X,1000,2026-10-01T12:53:39.259Z,
+free_recall,s234835,3,delay,20,M C Z W A E J N I S L T V P Q B O R H X,R H X I J U A,1000,2026-10-01T12:54:57.591Z,
+free_recall,s234835,4,distractor,20,H W T C S L U O R A P Z M X N G K E V Q,H W C T S Q H V R,1000,2026-10-01T12:55:52.299Z,
+free_recall,s234835,5,baseline,20,R F W B M Q S O D N I L Y X H E T J G V,V G M J U S T R F W B S Q U O,1000,2026-10-01T12:56:38.794Z,
+free_recall,s234835,6,distractor,20,L I C P U Y V A T K E Z F M J N D G W Q,C P U Y V R F W G B,1000,2026-10-01T12:57:50.001Z,
+free_recall,s234835,7,fast,20,B G A R Z C M T E W O L J D H N Q V F I,I F J W A H M U R S T,500,2026-10-01T12:58:18.336Z,
+free_recall,s234835,8,delay,20,M A D U T C Q R L F B S V G Z N K E I J,E I J S V G F G B U Q,1000,2026-10-01T12:59:17.106Z,
+free_recall,s234835,9,distractor,20,I D Y B T V L J N S C K A O Z Q F X W M,Z W M F W A,1000,2026-10-01T13:00:19.216Z,
+free_recall,s234835,10,baseline,20,K W N O D C L I H T Y Z V A P B U Q F G,U Q F G W A D K L I O,1000,2026-10-01T13:01:08.971Z,
+free_recall,s234835,11,delay,20,B H F V Q J S U P K I L A C E Z O G Y W,Z O Y W G F J,1000,2026-10-01T13:02:53.230Z,
+free_recall,s234835,12,fast,20,B G T Z W C L P R D E V U Y X O F I H S,F H I S G W C Z O,500,2026-10-01T13:03:18.087Z,
+free_recall,s234835,13,baseline,20,V O I X P B E G U W J Q F N R Z S L M T,S L M T B O W S V Q,1000,2026-10-01T13:04:14.641Z,
+free_recall,s234835,14,fast,20,P A H M E U Z L O Q C F S J D K X I Y B,X I Y B A F J S,500,2026-10-01T13:04:44.232Z,
+free_recall,s234835,15,distractor,20,H A B K Y I T X W D V M F U S O E G N C,S O E G B,1000,2026-10-01T13:05:42.444Z,
+free_recall,s234835,16,baseline,20,F K O U E M I R Y J A W S Z C X T Q B V,V F K O U B X Q T,1000,2026-10-01T13:06:27.576Z,
+free_recall,s234835,17,delay,20,W J L Q E C X V G P Z T D K O B U I R H,P Q R O H B V,1000,2026-10-01T13:07:20.305Z,
+free_recall,s234835,18,distractor,20,W H P X N L Y T O G C V F R J M U Z A Q,F V W Z Q U R H,1000,2026-10-01T13:08:28.851Z,
+free_recall,s234835,19,fast,20,O Q F J P D H C Y L T E R U A G Z S V K,S V K O P Q F J Z,500,2026-10-01T13:08:51.492Z,
+serial_recall,s234835,0,length_7,7,GDTBPCV,GDTBPVC,,2026-10-01T13:10:52.964Z,A_capacity
+serial_recall,s234835,1,length_7,7,BGTVPDC,BGTVPC,,2026-10-01T13:11:11.118Z,A_capacity
+serial_recall,s234835,2,length_3,3,GDC,GDC,,2026-10-01T13:11:19.594Z,A_capacity
+serial_recall,s234835,3,length_3,3,VCT,VCT,,2026-10-01T13:11:26.705Z,A_capacity
+serial_recall,s234835,4,length_5,5,GPCBV,GPCBV,,2026-10-01T13:11:36.445Z,A_capacity
+serial_recall,s234835,5,length_7,7,BCPTVDG,BCPTVDG,,2026-10-01T13:11:53.723Z,A_capacity
+serial_recall,s234835,6,length_6,6,BGCTPV,BGCTPV,,2026-10-01T13:12:08.967Z,A_capacity
+serial_recall,s234835,7,length_5,5,PCTDV,PCTDV,,2026-10-01T13:12:19.602Z,A_capacity
+serial_recall,s234835,8,length_5,5,GDBCP,GDBCP,,2026-10-01T13:12:28.977Z,A_capacity
+serial_recall,s234835,9,length_7,7,DVTPGCB,DVPTCGB,,2026-10-01T13:12:57.463Z,A_capacity
+serial_recall,s234835,10,length_3,3,BTG,BTG,,2026-10-01T13:13:04.301Z,A_capacity
+serial_recall,s234835,11,length_4,4,GTPC,GTPC,,2026-10-01T13:13:12.365Z,A_capacity
+serial_recall,s234835,12,length_6,6,BCVTGP,BCVTGP,,2026-10-01T13:13:27.157Z,A_capacity
+serial_recall,s234835,13,length_4,4,DTVP,DTVP,,2026-10-01T13:13:35.932Z,A_capacity
+serial_recall,s234835,14,length_3,3,GCV,GCV,,2026-10-01T13:13:43.872Z,A_capacity
+serial_recall,s234835,15,length_4,4,TVPG,TVPG,,2026-10-01T13:13:52.913Z,A_capacity
+serial_recall,s234835,16,length_5,5,BVDGT,BVDGT,,2026-10-01T13:14:03.034Z,A_capacity
+serial_recall,s234835,17,length_6,6,TPCGVD,TPCGVD,,2026-10-01T13:14:17.220Z,A_capacity
+serial_recall,s234835,18,length_6,6,CVPGDT,CVPGDT,,2026-10-01T13:14:29.019Z,A_capacity
+serial_recall,s234835,19,length_4,4,PGDV,PGDV,,2026-10-01T13:14:37.235Z,A_capacity
+serial_recall,s234835,0,chunked,6,OWL JAR SON GUM BUS EAR,OWL JAR SON GUM BUS,,2026-10-01T13:15:06.089Z,B_manipulation
+serial_recall,s234835,1,chunked,6,CAR RUN JOB LIP BOX BAT,CAR RUN JOB LIP BOX,,2026-10-01T13:15:33.301Z,B_manipulation
+serial_recall,s234835,2,chunked,6,EAR RAT KEY FOX NUT BAG,EAR RAT KEY PIT FOX RUN,,2026-10-01T13:15:53.464Z,B_manipulation
+serial_recall,s234835,3,suppression,6,F N K W J S,W F S V,,2026-10-01T13:16:19.767Z,B_manipulation
+serial_recall,s234835,4,tapping,6,R K S H L Y,R S H J L,,2026-10-01T13:16:35.452Z,B_manipulation
+serial_recall,s234835,5,tapping,6,Y S L Q X M,Y R S H Q L,,2026-10-01T13:16:51.673Z,B_manipulation
+serial_recall,s234835,6,chunked,6,TOP KEY BAT JAR RUN CAT,TOP KEY BAT CAR RUN,,2026-10-01T13:17:11.354Z,B_manipulation
+serial_recall,s234835,7,control,6,W R K H J S,W R K H J S,,2026-10-01T13:17:24.973Z,B_manipulation
+serial_recall,s234835,8,tapping,6,L F Q R S X,L F Q R S X,,2026-10-01T13:17:40.343Z,B_manipulation
+serial_recall,s234835,9,suppression,6,Q H J L M F,Q F H S L,,2026-10-01T13:17:57.901Z,B_manipulation
+serial_recall,s234835,10,suppression,6,M X F Q R W,M F X Q S U,,2026-10-01T13:18:13.318Z,B_manipulation
+serial_recall,s234835,11,chunked,6,BAT SON EAR COW TOP CAR,BAT SON EAR TOP CAR,,2026-10-01T13:18:32.865Z,B_manipulation
+serial_recall,s234835,12,tapping,6,K H Q R M S,K H Q R S,,2026-10-01T13:18:52.395Z,B_manipulation
+serial_recall,s234835,13,control,6,Y M K H F X,Y M K H F X,,2026-10-01T13:19:05.122Z,B_manipulation
+serial_recall,s234835,14,control,6,K H Y J W M,K H Y J W M,,2026-10-01T13:19:16.659Z,B_manipulation
+serial_recall,s234835,15,suppression,6,R M N S L J,R M N J S L,,2026-10-01T13:19:36.410Z,B_manipulation
+serial_recall,s234835,16,tapping,6,H J S X F W,R H J W L,,2026-10-01T13:19:51.978Z,B_manipulation
+serial_recall,s234835,17,control,6,K Q X Y F L,K Q X Y F L,,2026-10-01T13:20:05.393Z,B_manipulation
+serial_recall,s234835,18,suppression,6,Q S N L K Y,Q S N L Y,,2026-10-01T13:20:20.153Z,B_manipulation
+serial_recall,s234835,19,suppression,6,H F Y N W X,H R X N W,,2026-10-01T13:20:39.203Z,B_manipulation
+serial_recall,s234835,20,control,6,X Y H R N F,X Y H R N F,,2026-10-01T13:20:53.084Z,B_manipulation
+serial_recall,s234835,21,chunked,6,SKY PIG PEN KEY RAT FOX,SKY PEN KEY RAT FOX,,2026-10-01T13:21:19.308Z,B_manipulation
+serial_recall,s234835,22,control,6,K F Q H L J,K F Q H L J,,2026-10-01T13:21:31.749Z,B_manipulation
+serial_recall,s234835,23,tapping,6,Q K R W Y M,Q K W M R,,2026-10-01T13:21:49.006Z,B_manipulation
