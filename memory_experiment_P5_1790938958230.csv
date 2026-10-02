@@ -1,0 +1,21 @@
+experiment,participant,trial_index,condition,list_length,list,response,rate_ms_per_item,timestamp
+free_recall,P5,0,distractor,20,R O I U P K L F T E J D G W H V M S C N,J Q O P C G F D,1000,2026-10-02T10:48:24.768Z
+free_recall,P5,1,fast,20,O D B K M U A E N I W S T V L R Z C J F,F C U O J M G V,500,2026-10-02T10:48:54.792Z
+free_recall,P5,2,delay,20,X V G A I S J B K E W N L R C M O P Q T,T Q R O X C P B F G,1000,2026-10-02T10:49:58.544Z
+free_recall,P5,3,distractor,20,B E Y W Z J T P H S C Q N L G K F V M U,U J M G P C K H D,1000,2026-10-02T10:50:57.092Z
+free_recall,P5,4,fast,20,Y J A W V T G H U L I O F E X M C N S K,K N M S M J Y P O,500,2026-10-02T10:51:22.381Z
+free_recall,P5,5,baseline,20,R F D C K Z X W H J S U O G L I P Q A E,E A Q L O U P J G V W,1000,2026-10-02T10:52:10.381Z
+free_recall,P5,6,distractor,20,V M J G U I A Y Z T D B H P F Q S R C E,S P R,1000,2026-10-02T10:53:02.875Z
+free_recall,P5,7,baseline,20,X M W P C K A V S I E D J F O B L U G N,N U L G P S W,1000,2026-10-02T10:54:05.139Z
+free_recall,P5,8,delay,20,E N I S M K V U Y O G F W B D X T J H L,L W J M O P Q C X Z F D G,1000,2026-10-02T10:55:01.952Z
+free_recall,P5,9,distractor,20,G I Z R D M J W F N K S Q A H C B E T V,S G I Z R Q A,1000,2026-10-02T10:55:53.882Z
+free_recall,P5,10,baseline,20,H J I O Y D R C W Q M T L G U K V S N X,X N V Q U W P G,1000,2026-10-02T10:56:28.958Z
+free_recall,P5,11,baseline,20,L S R D A H P O T V I U E C Z W B M J F,F W B M J P O T C U,1000,2026-10-02T10:57:06.699Z
+free_recall,P5,12,fast,20,J T L E O S B V U P M A I Y N Q Z W G D,D G W U M P Z A I U D,500,2026-10-02T10:57:31.257Z
+free_recall,P5,13,fast,20,S Y A D L Q I B P E G H K V M J C N W X,X N M J Q B D O F G,500,2026-10-02T10:57:54.161Z
+free_recall,P5,14,fast,20,J G K H X L I S B O N R T D Q P E A C F,F C A B D G O U P F D Q R,500,2026-10-02T10:58:19.338Z
+free_recall,P5,15,distractor,20,O Q D T Z Y G V C F J E W M P N S X H I,,1000,2026-10-02T10:59:03.211Z
+free_recall,P5,16,delay,20,E O U C R M W I Y P B Q K F V S X N T H,H N S T W U M D,1000,2026-10-02T10:59:58.117Z
+free_recall,P5,17,baseline,20,C E B T J M X G Q I W F Y A R N U H Z L,L U N H Z S W U P H,1000,2026-10-02T11:00:44.822Z
+free_recall,P5,18,delay,20,K L A B J V T E O U W D Y Z R C M S F P,P W U Z M P U Y D C,1000,2026-10-02T11:01:40.425Z
+free_recall,P5,19,delay,20,A Q T V C I O Z N Y P L U F S W R M K D,D K W U M N H C V,1000,2026-10-02T11:02:33.015Z
